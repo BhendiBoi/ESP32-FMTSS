@@ -1,4 +1,4 @@
-#Hello from the creativiteam
+Hello from the creativiteam
 
 We are making a face mask detection system for our Sahyadri Science Talent Hunt(ssth).
 
