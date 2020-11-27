@@ -6,7 +6,7 @@ serverlink = "PUT THE SERVER'S LINK IN HERE"
 cap = cv2.VideoCapture(serverlink)
 
 while (True):
-    frame = cap.read()
+    success, frame = cap.read()
     cv2.imshow('Output', frame)
     k = cv2.waitKey(10) & 0xFF
 
