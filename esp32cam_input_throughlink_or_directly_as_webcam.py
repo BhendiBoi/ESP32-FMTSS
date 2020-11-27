@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-serverlink = "PUT THE SERVERS LINK IN HERE"
+serverlink = "PUT THE SERVER'S LINK IN HERE"
 
 cap = cv2.VideoCapture(serverlink)
 
