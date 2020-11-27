@@ -6,7 +6,7 @@ A. In the Current pandemic what are the two most important things? \[**Judges re
 
 2. Mention about the *current scenario* of the *sector*.
 
-A. many people are getting affected with covid-19 due to lack of usage of masks. A study by Japanese researchers found out that masks block about 60% of the amount of virus which comes out of a person's mouth. So if everyone wears a mask, the community spread can reduce by 60%! Isn't that great!!!
+A. Many people are getting affected with covid-19 due to lack of usage of masks. A study by Japanese researchers found out that masks block about 60% of the amount of virus which comes out of a person's mouth. So if everyone wears a mask, the community spread can reduce by 60%! Isn't that great!!!
 
 3. Which *SDG* does your problem come under?
 
@@ -21,7 +21,7 @@ A. Our solution is a face mask detection system. This system can be placed outsi
 
 2. **Highlight the uniqueness** of your *solution* along with the **technical details** of list of *features*.
 
-A. The unique thing about our project is our IP camera which means this is fully wireless since we're transmitting over wifi. this will be inputted to our program which finds out if an individual is wearing a mask or not.
+A. The unique thing about our project is our IP camera which means this is fully wireless since we're transmitting over wifi. This will be inputted to our program which finds out if an individual is wearing a mask or not.
 
 The technologies we have used are:
   1. ESP32 CAM for camera input
@@ -52,9 +52,17 @@ __TEAM__
 
 1. Describe the **key players** of your team and your **elite mentors** if you have any.
 
-All three team members have given their best in building and planning this project. Sanath shet was in charge of programming the ESP32 as well as managing the project and presentation. Rishon fernandes played a key role in the face detection algorithm as well as taking input from the esp32 CAM. Nandan bhandary was responsible for managing input and output of the system.
+A. All three team members have given their best in building and planning this project. Sanath shet was in charge of programming the ESP32 as well as managing the project and presentation. Rishon fernandes played a key role in the face detection algorithm as well as taking input from the esp32 CAM. Nandan bhandary was responsible for managing input and output of the system.
 
 __MARKET REACH__
+
+1. Is the market large enough to have people facing this problem / to pay for this solution?
+
+A. 
+
+2. Who else can use your solution other than the ones facing the problem?
+
+A. 
 
 
 __THANK YOU__
