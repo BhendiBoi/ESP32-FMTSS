@@ -10,4 +10,4 @@ Our steps are:
   5. Else do it on our own.
   6. Timings 12.40-1.20, 2.15-4, 7.15-9.15.
 
-😎 We are good poople lololololololol!! Lets do this ! And eat carrots .They good for your eyes. 😎
+😎 We are good poople lololololololol!! Lets do this ! And eat carrots. They good for your eyes. 😎
