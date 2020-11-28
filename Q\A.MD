@@ -54,7 +54,7 @@ __TEAM__
 
 A. All three team members have given their best in building and planning this project. Sanath shet was in charge of programming the ESP32 as well as managing the project and presentation. Rishon fernandes played a key role in the face detection algorithm as well as taking input from the esp32 CAM. Nandan bhandary was responsible for managing input and output of the system.
 
-__MARKET REACH__
+__MARKET REACH__ Rishon is an absolute madlad
 
 1. Is the market large enough to have people facing this problem / to pay for this solution?
 
