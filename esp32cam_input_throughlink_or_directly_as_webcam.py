@@ -3,7 +3,7 @@ import numpy as np
 
 serverlink = "PUT THE SERVER'S LINK IN HERE"
 
-cap = cv2.VideoCapture(serverlink)
+cap = cv2.VideoCapture('http://127.0.0.1:8000')
 
 while (True):
     frame = cap.read()
