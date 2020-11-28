@@ -54,19 +54,19 @@ __TEAM__
 
 A. All three team members have given their best in building and planning this project. Sanath shet was in charge of programming the ESP32 as well as managing the project and presentation. Rishon fernandes played a key role in the face detection algorithm as well as taking input from the esp32 CAM. Nandan bhandary was responsible for managing input and output of the system.
 
-__MARKET REACH__ Rishon is an absolute madlad
+__MARKET REACH__ 
 
 1. Is the market large enough to have people facing this problem / to pay for this solution?
 
-A. 
+A. Yes, Currently, everyone is facing this issue and have been searching for solutions, ours is one of them. This is a relatively low cost device for the features it offers. These days almost every **public area** has a PC and can use our face mask detector to keep the area safe. This project is estimated to be around 1000INR.
 
 2. Who else can use your solution other than the ones facing the problem?
 
-A. 
+A. This is apllicable for any business/public place/Home during the pandemic. But As mentioned earlier, this device can be used as a low cost surveillance device after the pandemic is declared over.
 
 
 __THANK YOU__
 
 1. Mention your *project name* in the bottom.
 
-Face Mask Detection System (FMTD)
+Face Mask Detection System (FMDS)
