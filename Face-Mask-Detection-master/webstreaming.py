@@ -248,7 +248,9 @@ def video_feed():
 	return Response(generate(),
 		mimetype = "multipart/x-mixed-replace; boundary=frame")
 
-
+@app.route("/project")
+def project():
+	return render_template("project.html")
 
 # construct the argument parser and parse command line arguments
 
