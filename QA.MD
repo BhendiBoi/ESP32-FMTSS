@@ -1,3 +1,9 @@
+Good morning everyone
+I am Rishon Fernandes, I am Sanath Shet and we are the Creativiteam.
+Today we are here to present our project, The PROTECHT.
+It is a Face Mask + Temperature Detection and Sanitization System.
+So lets begin without any further ado.
+
 __PROBLEM STATEMENT__
 
 1. What is the *major problem* you are trying to address?
@@ -15,14 +21,30 @@ A. Our problem comes under SDG 3, Good Health and Well-being.
 
 __SOLUTION__
 
-1. What is your **solution** to the problem being addressed?
+1. What is our **solution** to the problem being addressed?
 
-A. Our solution is a face mask detection system. This system can be placed outside a public entrance and will look out for people who arent interested in wearing masks.
+A. Our solution is a face mask detection system.
+This system can be placed outside a public entrance and will look out for people who arent interested in taking care of themselves and the public.
 
-2. **Highlight the uniqueness** of your *solution* along with the **technical details** of list of *features*.
+2.a) **What is the uniqueness** of our *solution* and the list of **features**?
 
-A. The unique thing about our project is our IP camera which means this is fully wireless since we're transmitting over wifi. This will be inputted to our program which finds out if an individual is wearing a mask or not.
+A. The unique thing about our project is our IP camera which means this is fully wireless since we're transmitting over wifi.
+This will be inputted to our program which finds out if an individual is wearing a mask or not.
 
+This is an all rounder which checks a person for the three essentials during covid:
+Face Masks, Temperature Checks and finally Hand Sanitization.
+
+Our project is also unique because without being checked for the three essentials, you won't be granted access.
+
+The wireless temperature sensor checks temperature and gives output. If all's good, we move on to the next step.
+Then the ESP32 CAM records footage and passes it on to the computer, the computer takes the input, applies the algorithm and gives an output.
+Then the auto sanitizer sanitizes the person's hands.
+
+All of the outputs are used to open a gate, sound a buzzer etc.
+
+When a person's temperature is not normal or if a person without a mask is detected, access is denied and the individual is kindly warned to wear his/her face mask appropriately.
+
+2.b) along with the **technical details** of .
 The technologies we have used are:
   1. ESP32 CAM for camera input
   2. Python for the face detection program which takes input from the ESP32 CAM
@@ -30,13 +52,7 @@ The technologies we have used are:
   4. OLED display for displaying messages
   5. MAchine Learning
 
-The ESP32 CAM records footage and passes it on to the computer, the computer takes the input, applies the algorithm and gives an output. This output is used to open a gate, sound a buzzer etc.
 
-This can also be livestreamed and used as a low cost surveillance camera with some modifications. The face detection algorithm can also be visualized in this stream.
-
-When a person without a mask is detected, access is denied and the individual is kindly warned to wear his/her face mask appropriately.
-it also draws a red box around his/her face.
-When Worn properly Access is granted and a green box is drawn.
 
 
 We have modified Chandrika Deb's code in our project. We are thankful for her help.
@@ -52,17 +68,26 @@ __TEAM__
 
 1. Describe the **key players** of your team and your **elite mentors** if you have any.
 
-A. All three team members have given their best in building and planning this project. Sanath shet was in charge of programming the ESP32 as well as managing the project and presentation. Rishon fernandes played a key role in the face detection algorithm as well as taking input from the esp32 CAM. Nandan bhandary was responsible for managing input and output of the system.
+A. I, Rishon Fernandes is incharge of 
+Taking input from the ESP32 cam,
+Implementing the face mask detection algorithm, communication between the esp32 and python and streaming the result to a webpage,
+Managing online collaboration
+and Managing the presentation
+I am also coding in HTML, Python and CSS
 
 __MARKET REACH__ 
 
 1. Is the market large enough to have people facing this problem / to pay for this solution?
 
-A. Yes, Currently, everyone is facing this issue and have been searching for solutions, ours is one of them. This is a relatively low cost device for the features it offers. These days almost every **public area** has a PC and can use our face mask detector to keep the area safe. This project is estimated to be around 1000INR.
+A. Our product costs around Rs1500.
+It is applicable in markets since almost every market place has a PC
+Who are the people facing this problem: Everyone
+It is totally affordable and pretty cheap for the functions it offers.
 
 2. Who else can use your solution other than the ones facing the problem?
 
-A. This is apllicable for any business/public place/Home during the pandemic. But As mentioned earlier, this device can be used as a low cost surveillance device after the pandemic is declared over.
+A. This is applicable for any business/public place/Home during the pandemic
+After the corona virus subdues, people can use this system as a surveillance camera, theft detector… etc.
 
 
 __THANK YOU__
