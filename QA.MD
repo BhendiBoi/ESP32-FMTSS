@@ -1,4 +1,4 @@
-Good morning everyone
+Good morning
 I am Rishon Fernandes, I am Sanath Shet and we are the Creativiteam.
 Today we are here to present our project, The PROTECHT.
 It is a Face Mask + Temperature Detection and Sanitization System.
