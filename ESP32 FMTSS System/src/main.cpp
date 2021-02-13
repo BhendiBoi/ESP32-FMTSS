@@ -18,13 +18,11 @@ const char *ssid = "lol";
 const char *password = "lol";
 
 // Set your Static IP address
-IPAddress local_IP(192, 168, 1, 184);
+IPAddress local_IP(192, 168, 29, 199);
 // Set your Gateway IP address
 IPAddress gateway(192, 168, 1, 1);
 
 IPAddress subnet(255, 255, 0, 0);
-IPAddress primaryDNS(8, 8, 8, 8); // optional
-IPAddress secondaryDNS(8, 8, 4, 4); // optional
 
 #define PART_BOUNDARY "123456789000000000000987654321"
 
@@ -209,6 +207,9 @@ void setup()
     return;
   }
   // Wi-Fi connection
+  if (!WiFi.config(local_IP, gateway, subnet)) {
+  Serial.println("STA Failed to configure");
+}
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED)
   {
