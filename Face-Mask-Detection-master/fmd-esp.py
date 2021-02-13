@@ -148,9 +148,9 @@ while True:
 
         if frame_gap == 10:
             if mask > withoutMask:
-                urllib.request.urlopen('http://192.168.43.136/mask')
+                urllib.request.urlopen('http://192.168.29.199:81/mask')
             else:
-                urllib.request.urlopen('http://192.168.43.136/nomask')
+                urllib.request.urlopen('http://192.168.29.199:81/nomask')
             
             frame_gap = 0
         
