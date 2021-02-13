@@ -14,8 +14,8 @@
 #include "esp_http_server.h"
 
 //Replace with your network credentials
-const char *ssid = "JioFiber -  2.4";
-const char *password = "Jio@1102";
+const char *ssid = "REPLACE_WITH_SSID";
+const char *password = "REPLACE_WITH_PASSWORD";
 
 // Set your Static IP address
 IPAddress local_IP(192, 168, 29, 199);
