@@ -105,7 +105,7 @@ print("[INFO] starting video stream...")
 # vs = VideoStream(src=0).start()
 # time.sleep(2.0)
 
-serverlink = "http://192.168.29.199/"
+serverlink = "http://192.168.29.199:80/"
 
 cap = cv2.VideoCapture(serverlink)
 
@@ -148,9 +148,9 @@ while True:
 
         if frame_gap == 10:
             if mask > withoutMask:
-                urllib.request.urlopen('http://192.168.43.136/H')
+                urllib.request.urlopen('http://192.168.43.136/mask')
             else:
-                urllib.request.urlopen('http://192.168.43.136/L')
+                urllib.request.urlopen('http://192.168.43.136/nomask')
             
             frame_gap = 0
         
