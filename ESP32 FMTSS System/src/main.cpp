@@ -14,8 +14,8 @@
 #include "esp_http_server.h"
 
 //Replace with your network credentials
-const char *ssid = "lol";
-const char *password = "lol";
+const char *ssid = "JioFiber -  2.4";
+const char *password = "Jio@1102";
 
 // Set your Static IP address
 IPAddress local_IP(192, 168, 29, 199);
@@ -265,21 +265,13 @@ void loop()
             client.println();
 
             // turns the GPIOs on and off
-            if (header.indexOf("GET /26/on") >= 0)
+            if (header.indexOf("GET /mask") >= 0)
             {
-              Serial.println("GPIO 26 on");
+              Serial.println("Mask Detected");
             }
-            else if (header.indexOf("GET /26/off") >= 0)
+            else if (header.indexOf("GET /nomask") >= 0)
             {
-              Serial.println("GPIO 26 off");
-            }
-            else if (header.indexOf("GET /27/on") >= 0)
-            {
-              Serial.println("GPIO 27 on");
-            }
-            else if (header.indexOf("GET /27/off") >= 0)
-            {
-              Serial.println("GPIO 27 off");
+              Serial.println("Mask Not Detected");
             }
 
             // Display the HTML web page
@@ -301,7 +293,6 @@ void loop()
             // The HTTP response ends with another blank line
             client.println();
             // Break out of the while loop
-            break;
           }
           else
           { // if you got a newline, then clear currentLine
@@ -314,11 +305,5 @@ void loop()
         }
       }
     }
-    // Clear the header variable
-    header = "";
-    // Close the connection
-    client.stop();
-    Serial.println("Client disconnected.");
-    Serial.println("");
   }
 }
