@@ -42,6 +42,12 @@ class WSF
 {
 public:
     WSF(int port);
+    void startCameraServer();
+    void startIOServer(WiFiServer server);
+    void IOListen();
+
+private:
+    int _port;
     WiFiServer _server;
     String header;
     // Current time
@@ -50,9 +56,6 @@ public:
     unsigned long previousTime;
     // Define timeout time in milliseconds (example: 2000ms = 2s)
     const long timeoutTime = 2000;
-    void startCameraServer();
-    void startIOServer(WiFiServer server);
-    void IOListen();
     httpd_handle_t stream_httpd = NULL;
     static esp_err_t stream_handler(httpd_req_t *req)
     {
@@ -130,8 +133,6 @@ public:
         }
         return res;
     }
-private:
-    int _port;
 };
 
 #endif
