@@ -1,3 +1,6 @@
+#ifndef DFFUNCTIONS_H
+#define DFFUNCTIONS_H
+
 #include <Arduino.h>
 #define Start_Byte 0x7E
 #define Version_Byte 0xFF
@@ -18,4 +21,6 @@ private:
     int _RX;
     int _TX;
     void execute_CMD(byte CMD, byte Par1, byte Par2);
-}
+};
+
+#endif

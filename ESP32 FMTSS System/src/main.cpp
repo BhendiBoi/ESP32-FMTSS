@@ -13,8 +13,8 @@ int IOPort = 81;     //-> Port number for IOWebServer
 WSF streamserver(streamPort);
 WSF IOserver(IOPort);
 
-int RX;
-int TX;
+int RXD;
+int TXD;
 
 DFF DF(RX, TX);
 
@@ -71,12 +71,17 @@ void loop()
       // display.cleardisplay();
       // display.setCursor(x, y)
       // display.drawBitmap(checkTemp);
+      DF.play(3);
     }
     else
     {
       // display.cleardisplay();
       // display.setCursor(x, y)
-      // display.drawBitmap(tempCritical);
+      // display.drawBitmap(wearMask);
+      DF.play(2);
     }
+  }
+  while (temp_normal == false)
+  {
   }
 }
