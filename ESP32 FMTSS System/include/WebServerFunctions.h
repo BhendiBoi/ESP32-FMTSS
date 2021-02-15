@@ -44,7 +44,7 @@ public:
     WSF(int port);
     void startCameraServer();
     void startIOServer(WiFiServer server);
-    void IOListen();
+    bool IOListen();
 
 private:
     int _port;

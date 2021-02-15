@@ -90,7 +90,7 @@ void WSF::startIOServer(WiFiServer server)
     _server = server;
     _server.begin();
 }
-void WSF::IOListen()
+bool WSF::IOListen()
 {
     // put your main code here, to run repeatedly:
     WiFiClient client = _server.available(); // Listen for incoming clients
@@ -126,31 +126,13 @@ void WSF::IOListen()
                         if (header.indexOf("GET /mask") >= 0)
                         {
                             Serial.println("Mask Detected");
+                            return true;
                         }
                         else if (header.indexOf("GET /nomask") >= 0)
                         {
                             Serial.println("Mask Not Detected");
+                            return false;
                         }
-
-                        // Display the HTML web page
-                        client.println("<!DOCTYPE html><html>");
-                        client.println("<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
-                        client.println("<link rel=\"icon\" href=\"data:,\">");
-                        // CSS to style the on/off buttons
-                        // Feel free to change the background-color and font-size attributes to fit your preferences
-                        client.println("<style>html { font-family: Helvetica; display: inline-block; margin: 0px auto; text-align: center;}");
-                        client.println(".button { background-color: #4CAF50; border: none; color: white; padding: 16px 40px;");
-                        client.println("text-decoration: none; font-size: 30px; margin: 2px; cursor: pointer;}");
-                        client.println(".button2 {background-color: #555555;}</style></head>");
-
-                        // Web Page Heading
-                        client.println("<body><h1>ESP32 Web Server</h1>");
-
-                        client.println("</body></html>");
-
-                        // The HTTP response ends with another blank line
-                        client.println();
-                        // Break out of the while loop
                     }
                     else
                     { // if you got a newline, then clear currentLine
@@ -165,4 +147,3 @@ void WSF::IOListen()
         }
     }
 }
-
