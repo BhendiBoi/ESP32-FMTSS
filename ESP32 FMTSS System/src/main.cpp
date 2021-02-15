@@ -16,7 +16,7 @@ WSF IOserver(IOPort);
 int RXD;
 int TXD;
 
-DFF DF(RX, TX);
+DFF DF(RXD, TXD);
 
 /*DF Player File Order:-
 1) FaceTheCamera.mp3
