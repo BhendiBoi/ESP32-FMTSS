@@ -13,8 +13,8 @@ int IOPort = 81;     //-> Port number for IOWebServer
 WSF streamserver(streamPort);
 WSF IOserver(IOPort);
 
-int RXD;
-int TXD;
+int RXD = 14;
+int TXD = 2;
 
 DFF DF(RXD, TXD);
 
@@ -81,7 +81,7 @@ void loop()
       DF.play(2);
     }
   }
-  while (temp_normal == false)
-  {
-  }
+  // while (temp_normal == false)
+  // {
+  // }
 }
