@@ -67,7 +67,7 @@ void loop()
   {
     if (IOserver.IOListen() == true)
     {
-      mask_detected == true;
+      mask_detected = true;
       // display.cleardisplay();
       // display.setCursor(x, y)
       // display.drawBitmap(checkTemp);
