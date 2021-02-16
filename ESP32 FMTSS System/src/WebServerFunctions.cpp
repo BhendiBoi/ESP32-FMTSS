@@ -9,6 +9,7 @@ WSF::WSF(int port)
 void wifiConnect(const char *ssid, const char *password, IPAddress local_ip, IPAddress gateway, IPAddress subnet)
 {
     // Wi-Fi connection
+    WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); //disable brownout detector
     if (!WiFi.config(local_ip, gateway, subnet))
     {
         Serial.println("STA Failed to configure");
@@ -26,7 +27,6 @@ void wifiConnect(const char *ssid, const char *password, IPAddress local_ip, IPA
 
 void WSF::startCameraServer()
 {
-    WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); //disable brownout detector
     camera_config_t camconfig;
     camconfig.ledc_channel = LEDC_CHANNEL_0;
     camconfig.ledc_timer = LEDC_TIMER_0;
@@ -90,7 +90,7 @@ void WSF::startIOServer(WiFiServer server)
     _server = server;
     _server.begin();
 }
-bool WSF::IOListen()
+byte WSF::IOListen()
 {
     // put your main code here, to run repeatedly:
     WiFiClient client = _server.available(); // Listen for incoming clients
@@ -99,7 +99,7 @@ bool WSF::IOListen()
     { // If a new client connects,
         currentTime = millis();
         previousTime = currentTime;
-        Serial.println("New Client."); // print a message out in the serial port
+        //Serial.println("New Client."); // print a message out in the serial port
         String currentLine = "";       // make a String to hold incoming data from the client
         while (client.connected() && currentTime - previousTime <= timeoutTime)
         { // loop while the client's connected
@@ -107,7 +107,7 @@ bool WSF::IOListen()
             if (client.available())
             {                           // if there's bytes to read from the client,
                 char c = client.read(); // read a byte, then
-                Serial.write(c);        // print it out the serial monitor
+                //Serial.write(c);        // print it out the serial monitor
                 header += c;
                 if (c == '\n')
                 { // if the byte is a newline character
@@ -123,15 +123,15 @@ bool WSF::IOListen()
                         client.println();
 
                         // turns the GPIOs on and off
-                        if (header.indexOf("GET /mask") >= 0)
-                        {
-                            Serial.println("Mask Detected");
-                            return true;
-                        }
-                        else if (header.indexOf("GET /nomask") >= 0)
+                        if (header.indexOf("GET /nomask") >= 0)
                         {
                             Serial.println("Mask Not Detected");
-                            return false;
+                            return 0;
+                        }
+                        else if (header.indexOf("GET /mask") >= 0)
+                        {
+                            Serial.println("Mask Detected");
+                            return 1;
                         }
                     }
                     else

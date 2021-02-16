@@ -13,8 +13,8 @@ int IOPort = 81;     //-> Port number for IOWebServer
 WSF streamserver(streamPort);
 WSF IOserver(IOPort);
 
-int RXD;
-int TXD;
+int RXD = 13;
+int TXD = 15;
 
 DFF DF(RXD, TXD);
 
@@ -46,6 +46,13 @@ bool mask_detected = false;
 bool temp_normal = false;
 bool sanitized = false;
 
+void empty()
+{
+  while (true)
+  {
+  }
+}
+
 void setup()
 {
   Serial.begin(115200);
@@ -65,23 +72,29 @@ void loop()
 {
   while (mask_detected == false)
   {
-    if (IOserver.IOListen() == true)
+    byte output = IOserver.IOListen();
+    if (output == 1)
     {
-      mask_detected = true;
+      //mask_detected = true;
       // display.cleardisplay();
       // display.setCursor(x, y)
       // display.drawBitmap(checkTemp);
-      DF.play(3);
+      DF.play(2);
+      // Serial.println("Mask Detected");
+      output = 3;
     }
-    else
+    else if (output == 0)
     {
       // display.cleardisplay();
       // display.setCursor(x, y)
       // display.drawBitmap(wearMask);
-      DF.play(2);
+      DF.play(3);
+      // Serial.println("Mask Not Detected");
+      output = 3;
     }
-  }
-  while (temp_normal == false)
-  {
+    else
+    {
+      byte output = IOserver.IOListen();
+    }
   }
 }
