@@ -1,19 +1,15 @@
+import urllib.request
 import cv2
 import numpy as np
 
-serverlink = "http://192.168.29.199/"
+url='http://192.168.29.199/cam-hi.jpg'
 
-cap = cv2.VideoCapture(serverlink)
-# cap.set(3, 840 + 400)
-# cap.set(4, 680 + 400)
-# cap.set(10, 10000000)
+while True:
+    imgResp=urllib.request.urlopen(url)
+    imgNp=np.array(bytearray(imgResp.read()),dtype=np.uint8)
+    img=cv2.imdecode(imgNp,-1)
 
-while (True):
-    success, img = cap.read()
-    cv2.imshow('Output', img)
-
-    if cv2.waitKey(10) & 0xFF == 27:
-        break
-
-cap.release()
-cv2.destroyAllWindows()
+    # all the opencv processing is done here
+    cv2.imshow('test',img)
+    if ord('q')==cv2.waitKey(10):
+        exit(0)
