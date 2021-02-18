@@ -12,11 +12,11 @@ import imutils
 import time
 import cv2
 import os
-import urllib
+import urllib.request
 
 
 def detect_and_predict_mask(frame, faceNet, maskNet):
-    # grab the dimensions of the frame and then construct a blob       
+    # grab the dimensions of the frame and then construct a blob
     # from it
     (h, w) = frame.shape[:2]
     blob = cv2.dnn.blobFromImage(frame, 1.0, (500, 500),
@@ -105,9 +105,7 @@ print("[INFO] starting video stream...")
 # vs = VideoStream(src=0).start()
 # time.sleep(2.0)
 
-serverlink = "http://192.168.29.199:80/"
-
-cap = cv2.VideoCapture(serverlink)
+serverlink = "http://192.168.29.199:80/cam-hi.jpg"
 
 # cap = VideoStream(src=serverlink).start()
 # time.sleep(2.0)
@@ -116,10 +114,9 @@ frame_gap = 0
 
 # loop over the frames from the video stream
 while True:
-    # grab the frame from the threaded video stream and resize it
-    # to have a maximum width of 400 pixels
-    ret, frame = cap.read()
-    frame = imutils.resize(frame, width=400)
+    imgResp=urllib.request.urlopen(serverlink)
+    imgNp=np.array(bytearray(imgResp.read()),dtype=np.uint8)
+    frame=cv2.imdecode(imgNp,-1)
 
     # detect faces in the frame and determine if they are wearing a
     # face mask or not
