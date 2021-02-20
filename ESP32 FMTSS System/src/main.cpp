@@ -46,6 +46,20 @@ bool mask_detected = false;
 bool temp_normal = false;
 bool sanitized = false;
 
+void verifyTemp()
+{
+  int rectemp[10];
+  int sumtemp;
+  int criticalcount;
+  for (int i = 0; i < 10; i++;)
+  {
+    rectemp[i] = MLX.readObjectTempC() + 3;
+    delay(100);
+    sumtemp = sumtemp + rectemp[i];
+  }
+  int avgtemp = sumtemp / 10;
+}
+
 void setup()
 {
   Serial.begin(115200);
@@ -63,6 +77,7 @@ void setup()
 }
 void loop()
 {
+  int temp;
   while (mask_detected == false)
   {
     checkWifiConnection(ssid, password);
@@ -89,6 +104,25 @@ void loop()
     else
     {
       byte output = IOserver.IOListen();
+    }
+  }
+  while (temp_normal == false)
+  {
+    temp = MLX.readObjectTempC() + 3;
+    delay(10);
+    if (temp <= 35)
+    {
+      // display.drawBitmap(checktemp);
+    }
+    else
+    {
+      verifyTemp();
+
+      if (avgtemp >= 38 || avgtemp <= 35)
+      {
+        //display.drawBitmap(checkTemp);
+        criticalcount++;
+      }
     }
   }
 }
