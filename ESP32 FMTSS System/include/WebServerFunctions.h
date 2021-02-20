@@ -36,7 +36,9 @@ static const char *_STREAM_CONTENT_TYPE = "multipart/x-mixed-replace;boundary=" 
 static const char *_STREAM_BOUNDARY = "\r\n--" PART_BOUNDARY "\r\n";
 static const char *_STREAM_PART = "Content-Type: image/jpeg\r\nContent-Length: %u\r\n\r\n";
 
+unsigned long check_wifi = 10000;
 void wifiConnect(const char *ssid, const char *password, IPAddress local_ip, IPAddress gateway, IPAddress subnet);
+void checkWifiConnection(const char *ssid, const char *password);
 
 class WSF
 {

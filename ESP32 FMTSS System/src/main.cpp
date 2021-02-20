@@ -46,13 +46,6 @@ bool mask_detected = false;
 bool temp_normal = false;
 bool sanitized = false;
 
-void empty()
-{
-  while (true)
-  {
-  }
-}
-
 void setup()
 {
   Serial.begin(115200);
@@ -72,6 +65,7 @@ void loop()
 {
   while (mask_detected == false)
   {
+    checkWifiConnection(ssid, password);
     byte output = IOserver.IOListen();
     if (output == 1)
     {
