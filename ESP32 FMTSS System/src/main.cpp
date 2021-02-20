@@ -50,8 +50,7 @@ int verifyTemp()
 {
   int rectemp[10];
   int sumtemp;
-  int criticalcount;
-  for (int i = 0; i < 10; i++;)
+  for (int i = 0; i < 10; i++)
   {
     rectemp[i] = MLX.readObjectTempC() + 3;
     delay(100);
