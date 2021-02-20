@@ -37,7 +37,6 @@ static const char *_STREAM_BOUNDARY = "\r\n--" PART_BOUNDARY "\r\n";
 static const char *_STREAM_PART = "Content-Type: image/jpeg\r\nContent-Length: %u\r\n\r\n";
 
 void wifiConnect(const char *ssid, const char *password, IPAddress local_ip, IPAddress gateway, IPAddress subnet);
-void checkWifiConnection(const char *ssid, const char *password);
 
 class WSF
 {

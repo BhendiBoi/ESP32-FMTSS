@@ -148,12 +148,3 @@ byte WSF::IOListen()
     }
 }
 
-void checkWifiConnection(const char *ssid, const char *password)
-{
-    if (WiFi.status() != WL_CONNECTED)
-    {
-        Serial.println("Reconnecting to WiFi...");
-        WiFi.disconnect();
-        WiFi.begin(ssid, password);
-    }
-}
