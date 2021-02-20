@@ -46,7 +46,7 @@ bool mask_detected = false;
 bool temp_normal = false;
 bool sanitized = false;
 
-void verifyTemp()
+int verifyTemp()
 {
   int rectemp[10];
   int sumtemp;
@@ -58,6 +58,7 @@ void verifyTemp()
     sumtemp = sumtemp + rectemp[i];
   }
   int avgtemp = sumtemp / 10;
+  return avgtemp;
 }
 
 void setup()
@@ -112,16 +113,20 @@ void loop()
     delay(10);
     if (temp <= 35)
     {
-      // display.drawBitmap(checktemp);
     }
     else
     {
-      verifyTemp();
+      //display.drawBitmap(checkingTemp);
+      int avgtemp = verifyTemp();
 
       if (avgtemp >= 38 || avgtemp <= 35)
       {
-        //display.drawBitmap(checkTemp);
-        criticalcount++;
+        // display.drawBitmap(tempCritical);
+      }
+      else
+      {
+        temp_normal = true;
+        // display.drawBitmap(Sanitize);
       }
     }
   }
