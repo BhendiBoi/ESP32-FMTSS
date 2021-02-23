@@ -1,5 +1,6 @@
 # Python virtual environments
-venv
-env
-.vscode\settings.json
-Face-Mask-Detection-master\mask_detector.model
+Face-Mask-Detection-master/env/
+.vscode/
+Face-Mask-Detection-master/mask_detector.model
+ESP32 FMTSS System/.pio/
+ESP32 FMTSS System/.vscode/
