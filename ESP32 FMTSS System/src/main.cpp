@@ -46,7 +46,8 @@ bool mask_detected = false;
 bool temp_normal = false;
 bool sanitized = false;
 
-void WiFiStationDisconnected(WiFiEvent_t event, WiFiEventInfo_t info){
+void WiFiStationDisconnected(WiFiEvent_t event, WiFiEventInfo_t info)
+{
   Serial.println("Disconnected from WiFi access point");
   Serial.print("WiFi lost connection. Reason: ");
   Serial.println(info.disconnected.reason);
@@ -136,5 +137,8 @@ void loop()
         // display.drawBitmap(Sanitize);
       }
     }
+  }
+  while (sanitized == false)
+  {
   }
 }
