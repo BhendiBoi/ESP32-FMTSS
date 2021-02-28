@@ -13,7 +13,7 @@
 int RXD = 13;
 int TXD = 15;
 
-DFF DF(RXD, TXD);
+//DFF DF(RXD, TXD);
 
 /*DF Player File Order:-
 1) FaceTheCamera.mp3
@@ -35,7 +35,7 @@ IPAddress gateway(192, 168, 1, 1);
 
 IPAddress subnet(255, 255, 0, 0);
 
-Adafruit_MLX90614 MLX = Adafruit_MLX90614();
+//Adafruit_MLX90614 MLX = Adafruit_MLX90614();
 
 bool mask_detected = false;
 bool temp_normal = false;
@@ -190,12 +190,12 @@ void setup()
   startCameraServer();
   IOserver.begin();
   Wire.begin(13, 15);
-  MLX.begin();
-  DF.begin();
+  //MLX.begin();
+  //DF.begin();
   //display.begin(SSD1306_SWITCHCAPVCC);
   // display.display();
   // display.clearDisplay();
-  DF.play(1);
+  //DF.play(1);
 }
 void loop()
 {
@@ -209,7 +209,7 @@ void loop()
       // display.cleardisplay();
       // display.setCursor(x, y)
       // display.drawBitmap(checkTemp);
-      DF.play(2);
+      //DF.play(2);
       // Serial.println("Mask Detected");
       output = 3;
     }
@@ -218,7 +218,7 @@ void loop()
       // display.cleardisplay();
       // display.setCursor(x, y)
       // display.drawBitmap(wearMask);
-      DF.play(3);
+      //DF.play(3);
       // Serial.println("Mask Not Detected");
       output = 3;
     }
