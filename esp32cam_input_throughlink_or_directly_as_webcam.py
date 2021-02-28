@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-serverlink = "http://192.168.29.199/"
+serverlink = "http://192.168.29.199:81/stream"
 
 cap = cv2.VideoCapture(serverlink)
 # cap.set(3, 840 + 400)
