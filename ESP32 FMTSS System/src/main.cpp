@@ -12,7 +12,6 @@ Pre-Use Checklist (VERY IMPORTANT):-
 3. Comment out or Edit the "Wire.begin()" statement in Adafruit_SSD1306.cpp Line 490
 4. Follow Exact Pinout (as given below) Or Modify Integer Values
 5. Make Sure SD Card is atttached to DFPlayer and File Order Matches the one given below
-6. Make Sure you get a cup of tea while this compiles 
 
 Pinout :-
 OLED RES(reset) -> GPIO14 (If RES pin is not present, modify "#define OLED_RESET 14" to "#define OLED_RESET -1" main.cpp line 67)
@@ -67,12 +66,22 @@ int TXD = 2; //Pin to communicate with DFPlayer
 int IOport = 81;  //Port for /mask, /nomask server
 int camport = 80; //Port for camera
 
-DFF DF(TXD);
+bool mask_detected = false; //Boolean variable to record if mask was worn by user
+bool temp_normal = false; //Boolean variable to record if temperature of user was normal
+bool sanitized = false; //Boolean variable to record if user sanitized his hands
 
-WebServer camserver(camport);
-WiFiServer IOserver(IOport);
+String header; 
 
-Adafruit_MLX90614 MLX = Adafruit_MLX90614();
+unsigned long currentTime; 
+unsigned long previousTime;
+const long timeoutTime = 2000;
+
+static auto loRes = esp32cam::Resolution::find(320, 240);
+static auto hiRes = esp32cam::Resolution::find(800, 600);
+
+int sig = 12;
+unsigned long timestart;
+unsigned long timepassed;
 
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
@@ -80,16 +89,12 @@ Adafruit_MLX90614 MLX = Adafruit_MLX90614();
 #define SCREEN_ADDRESS 0x3C
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
-bool mask_detected = false;
-bool temp_normal = false;
-bool sanitized = false;
-String header;
-unsigned long currentTime;
-unsigned long previousTime;
-const long timeoutTime = 2000;
+DFF DF(TXD); 
 
-static auto loRes = esp32cam::Resolution::find(320, 240);
-static auto hiRes = esp32cam::Resolution::find(800, 600);
+WebServer camserver(camport);
+WiFiServer IOserver(IOport);
+
+Adafruit_MLX90614 MLX = Adafruit_MLX90614();
 
 void wifiConnect()
 {
@@ -232,27 +237,28 @@ float verifyTemp()
 void setup()
 {
   WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); //disable brownout detector
-  Serial.begin(115200);
-  Serial.setDebugOutput(false);
-  wifiConnect();
-  startCameraServer();
-  IOserver.begin();
-  Wire.begin(13, 15);
-  MLX.begin();
+  Serial.begin(115200); //establish serial communication
+  Serial.setDebugOutput(false); 
+  wifiConnect(); //connect to WiFi
+  startCameraServer(); //start a camera streaming server
+  IOserver.begin(); //start a server to communicate with Face-Mask-Detection Algorithm
+  Wire.begin(13, 15); //establish I2C connection between OLED and MLX90614 
+  MLX.begin();                               
   DF.begin();
-  display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS); //edit or comment wire->begin() statement in Adafruit_SSD1306::begin() function
-  display.display();
+  display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS);     
+  display.display();                                        
   display.clearDisplay();
-  display.drawBitmap(5, 12, facethecamera, 118, 40, WHITE);
+  display.drawBitmap(5, 12, facethecamera, 118, 40, WHITE); //Tell user to face the OV2640 camera with graphics
   display.display();
-  DF.play(1);
+  DF.play(1); //Play face the camera audio file
 }
 void loop()
 {
-  float temp;
-  while (mask_detected == false)
+  float temp; //variable to record temperature of user
+
+  while (mask_detected == false) 
   {
-    camserver.handleClient();
+    camserver.handleClient(); 
     byte output = IOListen();
     if (output == 1)
     {
@@ -312,5 +318,29 @@ void loop()
   }
   while (sanitized == false)
   {
+    int sigstate = digitalRead(sig);
+    Serial.println(sigstate);
+    timestart = millis();
+    while (sigstate == 0)
+    {
+      sigstate = digitalRead(sig);
+      Serial.println(sigstate);
+      timepassed = millis() - timestart;
+      Serial.println(timepassed);
+      if (timepassed > 1000)
+      {
+        Serial.println("turning on LED");
+        timepassed = 0;
+        pinMode(sig, OUTPUT);
+        digitalWrite(sig, HIGH);
+        delay(1000);
+        pinMode(sig, INPUT_PULLUP);
+        while (sigstate == 0)
+        {
+          sigstate = digitalRead(sig);
+        }
+      }
+    }
+    delay(500);
   }
 }
