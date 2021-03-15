@@ -1,15 +1,14 @@
 #include "DFFunctions.h"
 #include "Arduino.h"
 
-DFF::DFF(int RX, int TX)
+DFF::DFF(int TX)
 {
-    _RX = RX;
     _TX = TX;
 }
 
 void DFF::begin()
 {
-    Serial2.begin(9600, SERIAL_8N1, _RX, _TX);
+    Serial2.begin(9600, SERIAL_8N1, -1, _TX);
     setVolume(25);
 }
 

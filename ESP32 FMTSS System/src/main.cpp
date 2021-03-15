@@ -1,58 +1,92 @@
-#include <Arduino.h>
-#include <Adafruit_MLX90614.h> //Remember to Modify!! (Comment "Wire.begin()" in Adafruit_SSD1306.CPP)
-#include <Adafruit_GFX.h>
-//#include <Adafruit_SSD1306.h>
-#include <SPI.h>
-#include <Wire.h>
-#include <DFFunctions.h>
-#include <WebServer.h>
-#include <esp32cam.h>
-#include "soc/soc.h"          //disable brownout problems
-#include "soc/rtc_cntl_reg.h" //disable brownout problems
+/*
+ESP32 CAM Main System Code
+Unit of ESP32 Face Mask + Temperature + Sanitisation System (ESP32 FMTSS)
+Documented on 12th March 2021 
 
-int RXD = 13;
-int TXD = 15;
+Code Written By Sanath Shet
+Special Thanks to Nandan Bhandary and Rishon Fernandes
 
-//DFF DF(RXD, TXD);
+Pre-Use Checklist (VERY IMPORTANT):-
+1. Comment out or Edit the "Wire.begin()" statement in Adafruit_MLX90614.cpp Line 32
+2. Turn all wire->function() statements into Wire.function() statements in Adafruit_SSD1306.cpp
+3. Comment out or Edit the "Wire.begin()" statement in Adafruit_SSD1306.cpp Line 490
+4. Follow Exact Pinout (as given below) Or Modify Integer Values
+5. Make Sure SD Card is atttached to DFPlayer and File Order Matches the one given below
+6. Make Sure you get a cup of tea while this compiles 
 
-/*DF Player File Order:-
+Pinout :-
+OLED RES(reset) -> GPIO14 (If RES pin is not present, modify "#define OLED_RESET 14" to "#define OLED_RESET -1" main.cpp line 67)
+OLED D1/SDA -> GPIO13 (Use Pull-Up resistors if necessary)
+OLED D0/SCL -> GPIO15 (Use Pull-Up resistors if necessary)
+OLED DC -> GND (ignore if pins not present on OLED)
+OLED CS -> GND (ignore if pins not present on OLED)
+MLX90614 SDA -> GPIO13 (3.3V ONLY)
+MLX90614 SCL -> GPIO15 (3.3V ONLY)
+DFPlayer Mini RX -> GPIO2 (Through a 1K Resistor)
+DFPlayer SPK1 -> Speaker 
+DFPlayer SPK2 -> Speaker
+FTDI RX -> GPIO1
+FTDI TX -> GPIO3
+
+DF Player File Order:-
 1) FaceTheCamera.mp3
 2) WearMask.mp3
 3) CheckTemp.mp3
 4) TempCritical.mp3
 5) Sanitize.mp3
 6) Proceed.mp3
+
+OLED graphics variable names:-
+1) facethecamera:- tells the user to face the OV2640
+2) wearmask:- tells the user to wear a mask
+3) 
 */
 
+#include <Arduino.h>           //necessary for .cpp extension
+#include <Adafruit_MLX90614.h> //For Working of MLX90614 Contactless Temperature Sensor
+#include <Adafruit_GFX.h>      //Dependency of Adafruit_SSD1306
+#include <Adafruit_SSD1306.h>  //For Working of OLED display
+#include <Wire.h>              //I2C Library
+#include <DFFunctions.h>       //contains code for initialization and working of DFPlayer Mini
+#include <WebServer.h>         //For Working of WebServer
+#include <esp32cam.h>          //For Working of ESP32 CAM
+#include <OLEDGraphics.h>      //Contains bitmap images that OLED can display
+#include "soc/soc.h"           //disable brownout problems
+#include "soc/rtc_cntl_reg.h"  //disable brownout problems
+
 //Replace with your network credentials
-const char *ssid = "JioFiber -  2.4"; //uncomment (made to remind replacement of SSID and Password)
+const char *ssid = "JioFiber -  2.4";
 const char *password = "Jio@1102";
 
-// Set your Static IP address
-IPAddress local_IP(192, 168, 29, 199);
-// Set your Gateway IP address
-IPAddress gateway(192, 168, 1, 1);
-
+IPAddress local_IP(192, 168, 29, 199); // Set your Static IP address
+IPAddress gateway(192, 168, 1, 1);     // Set your Gateway IP address
 IPAddress subnet(255, 255, 0, 0);
 
-//Adafruit_MLX90614 MLX = Adafruit_MLX90614();
+int TXD = 2; //Pin to communicate with DFPlayer
+
+int IOport = 81;  //Port for /mask, /nomask server
+int camport = 80; //Port for camera
+
+DFF DF(TXD);
+
+WebServer camserver(camport);
+WiFiServer IOserver(IOport);
+
+Adafruit_MLX90614 MLX = Adafruit_MLX90614();
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+#define OLED_RESET 14
+#define SCREEN_ADDRESS 0x3C
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 bool mask_detected = false;
 bool temp_normal = false;
 bool sanitized = false;
 String header;
-// Current time
 unsigned long currentTime;
-// Previous time
 unsigned long previousTime;
-// Define timeout time in milliseconds (example: 2000ms = 2s)
 const long timeoutTime = 2000;
-
-int IOport = 81;
-int camport = 80;
-
-WebServer camserver(camport);
-WiFiServer IOserver(IOport);
 
 static auto loRes = esp32cam::Resolution::find(320, 240);
 static auto hiRes = esp32cam::Resolution::find(800, 600);
@@ -125,7 +159,6 @@ void startCameraServer()
 byte IOListen()
 
 {
-  // put your main code here, to run repeatedly:
   WiFiClient client = IOserver.available(); // Listen for incoming clients
 
   if (client)
@@ -180,7 +213,22 @@ byte IOListen()
     }
   }
 }
-
+float verifyTemp()
+{
+  float rectemp[10];
+  float sumtemp = 0;
+  for (int i = 0; i < 10; i++)
+  {
+    rectemp[i] = MLX.readObjectTempC() + 3;
+    Serial.println(rectemp[i]);
+    delay(200);
+    sumtemp = sumtemp + rectemp[i];
+    Serial.println("");
+    Serial.println(sumtemp);
+  }
+  float avgtemp = sumtemp / 10;
+  return avgtemp;
+}
 void setup()
 {
   WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); //disable brownout detector
@@ -190,41 +238,79 @@ void setup()
   startCameraServer();
   IOserver.begin();
   Wire.begin(13, 15);
-  //MLX.begin();
-  //DF.begin();
-  //display.begin(SSD1306_SWITCHCAPVCC);
-  // display.display();
-  // display.clearDisplay();
-  //DF.play(1);
+  MLX.begin();
+  DF.begin();
+  display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS); //edit or comment wire->begin() statement in Adafruit_SSD1306::begin() function
+  display.display();
+  display.clearDisplay();
+  display.drawBitmap(5, 12, facethecamera, 118, 40, WHITE);
+  display.display();
+  DF.play(1);
 }
 void loop()
 {
+  float temp;
   while (mask_detected == false)
   {
     camserver.handleClient();
     byte output = IOListen();
     if (output == 1)
     {
-      //mask_detected = true;
-      // display.cleardisplay();
-      // display.setCursor(x, y)
-      // display.drawBitmap(checkTemp);
-      //DF.play(2);
-      // Serial.println("Mask Detected");
+      mask_detected = true;
+      display.clearDisplay();
+      display.drawBitmap(0, 12, checktemp, 128, 40, WHITE);
+      display.display();
+      DF.play(3);
+      Serial.println("Mask Detected");
       output = 3;
     }
     else if (output == 0)
     {
-      // display.cleardisplay();
-      // display.setCursor(x, y)
-      // display.drawBitmap(wearMask);
-      //DF.play(3);
-      // Serial.println("Mask Not Detected");
+      display.clearDisplay();
+      display.drawBitmap(0, 12, wearmask, 128, 40, WHITE);
+      display.display();
+      DF.play(2);
+      Serial.println("Mask Not Detected");
       output = 3;
+    }
+  }
+  while (temp_normal == false)
+  {
+    temp = MLX.readObjectTempC() + 3;
+    delay(1000);
+    Serial.println(temp);
+    if (temp <= 35)
+    {
+      Serial.println("Wrist not Detected");
     }
     else
     {
-      byte output = IOListen();
+      Serial.println("Wrist Detected");
+      float avgtemp = verifyTemp();
+      Serial.print("avgtemp = ");
+      Serial.println(avgtemp);
+
+      if (avgtemp >= 38 || avgtemp <= 35)
+      {
+        display.clearDisplay();
+        display.drawBitmap(0, 12, tempcritical, 128, 40, WHITE);
+        display.display();
+        DF.play(4);
+        Serial.println("too high!");
+        avgtemp = 0;
+      }
+      else
+      {
+        temp_normal = true;
+        display.clearDisplay();
+        display.drawBitmap(44, 12, sanitize, 40, 40, WHITE);
+        display.display();
+        DF.play(5);
+        Serial.println("normal");
+      }
     }
+  }
+  while (sanitized == false)
+  {
   }
 }

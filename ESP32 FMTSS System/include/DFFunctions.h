@@ -12,7 +12,7 @@
 class DFF
 {
 public:
-    DFF(int RX, int TX);
+    DFF(int TX);
     void begin();
     void setVolume(int volume);
     void play(int file);
