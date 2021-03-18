@@ -33,7 +33,10 @@ DF Player File Order:-
 OLED graphics variable names:-
 1) facethecamera:- tells the user to face the OV2640
 2) wearmask:- tells the user to wear a mask
-3) 
+3) tempcheck:- asks the user to check their body temperature
+4) tempcritical:- Warns the user that their body temperature is high
+5) sanitize:- asks the user to sanitize their hands
+6) proceed:- tells the user that all checks are completed and he/she can proceed
 */
 
 #include <Arduino.h>           //necessary for .cpp extension
@@ -65,16 +68,20 @@ bool mask_detected = false; //Boolean variable to record if mask was worn by use
 bool temp_normal = false; //Boolean variable to record if temperature of user was normal
 bool sanitized = false; //Boolean variable to record if user sanitized his hands
 
-String header; 
+String header; //variable for holding GET request from client temporarily
 
+//variables for the time the clients take to make a GET request 
 unsigned long currentTime; 
 unsigned long previousTime;
 const long timeoutTime = 2000;
 
+//resolution variables for esp32 cam
 static auto loRes = esp32cam::Resolution::find(320, 240);
 static auto hiRes = esp32cam::Resolution::find(800, 600);
 
-int sig = 12;
+int sig = 4; //pin used to communicate with sanitizer through a single wire
+
+//variables used to measure the time the user has been waiting for sanitizer
 unsigned long timestart;
 unsigned long timepassed;
 
@@ -91,13 +98,15 @@ WiFiServer IOserver(IOport);
 
 Adafruit_MLX90614 MLX = Adafruit_MLX90614();
 
+//Connects to WiFi with a fixed IP address
 void wifiConnect()
 {
+  //sets a static/fixed IP address 
   if (!WiFi.config(local_IP, gateway, subnet))
   {
     Serial.println("STA Failed to configure");
   }
-  WiFi.begin(ssid, password);
+  WiFi.begin(ssid, password); //connects to WiFi
   while (WiFi.status() != WL_CONNECTED)
   {
     delay(500);
@@ -108,6 +117,7 @@ void wifiConnect()
   Serial.println(local_IP);
 }
 
+//captures a frame and sends it to client
 void handleJpgHi()
 {
   if (!esp32cam::Camera.changeResolution(hiRes))
@@ -130,6 +140,7 @@ void handleJpgHi()
   frame->writeTo(client);
 }
 
+//starts camera server
 void startCameraServer()
 {
   camserver.begin();
@@ -215,8 +226,10 @@ byte IOListen()
 }
 float verifyTemp()
 {
-  float rectemp[10];
-  float sumtemp = 0;
+  float rectemp[10]; //variable to record users temperature 10 times consecutively
+  float sumtemp = 0; //variable to measure sum of all objects in the array "rectemp"
+
+  //measure temperature of user ten times and takes the sum of temperature recordings
   for (int i = 0; i < 10; i++)
   {
     rectemp[i] = MLX.readObjectTempC() + 3;
@@ -238,9 +251,9 @@ void setup()
   startCameraServer(); //start a camera streaming server
   IOserver.begin(); //start a server to communicate with Face-Mask-Detection Algorithm
   Wire.begin(13, 15); //establish I2C connection between OLED and MLX90614 
-  MLX.begin();                               
-  DF.begin();
-  display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS);     
+  MLX.begin(); //start communication with MLX90614                              
+  DF.begin(); //start communication with DFPlayer
+  display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS); //start communication with OLED 
   display.display();                                        
   display.clearDisplay();
   display.drawBitmap(5, 12, facethecamera, 118, 40, WHITE); //Tell user to face the OV2640 camera with graphics
