@@ -2,17 +2,14 @@
 ESP32 CAM Main System Code
 Unit of ESP32 Face Mask + Temperature + Sanitisation System (ESP32 FMTSS)
 Documented on 12th March 2021 
-
 Code Written By Sanath Shet
 Special Thanks to Nandan Bhandary and Rishon Fernandes
-
 Pre-Use Checklist (VERY IMPORTANT):-
 1. Comment out or Edit the "Wire.begin()" statement in Adafruit_MLX90614.cpp Line 32
 2. Turn all wire->function() statements into Wire.function() statements in Adafruit_SSD1306.cpp
 3. Comment out or Edit the "Wire.begin()" statement in Adafruit_SSD1306.cpp Line 490
 4. Follow Exact Pinout (as given below) Or Modify Integer Values
 5. Make Sure SD Card is atttached to DFPlayer and File Order Matches the one given below
-
 Pinout :-
 OLED RES(reset) -> GPIO14 (If RES pin is not present, modify "#define OLED_RESET 14" to "#define OLED_RESET -1" main.cpp line 67)
 OLED D1/SDA -> GPIO13 (Use Pull-Up resistors if necessary)
@@ -26,7 +23,6 @@ DFPlayer SPK1 -> Speaker
 DFPlayer SPK2 -> Speaker
 FTDI RX -> GPIO1
 FTDI TX -> GPIO3
-
 DF Player File Order:-
 1) FaceTheCamera.mp3
 2) WearMask.mp3
@@ -34,7 +30,6 @@ DF Player File Order:-
 4) TempCritical.mp3
 5) Sanitize.mp3
 6) Proceed.mp3
-
 OLED graphics variable names:-
 1) facethecamera:- tells the user to face the OV2640
 2) wearmask:- tells the user to wear a mask
