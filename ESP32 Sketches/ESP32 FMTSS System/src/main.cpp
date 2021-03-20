@@ -300,6 +300,9 @@ void loop()
     else
     {
       Serial.println("Wrist Detected");
+      display.clearDisplay();
+      display.drawBitmap(0, 0, checkingtemp, 128, 64, WHITE);
+      display.display();
       float avgtemp = verifyTemp();
       Serial.print("avgtemp = ");
       Serial.println(avgtemp);
