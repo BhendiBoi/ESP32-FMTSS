@@ -245,6 +245,15 @@ float verifyTemp()
   float avgtemp = sumtemp / 10;
   return avgtemp;
 }
+void WiFiStationDisconnected(WiFiEvent_t event, WiFiEventInfo_t info)
+{
+  Serial.println("Disconnected from WiFi access point");
+  Serial.print("WiFi lost connection. Reason: ");
+  Serial.println(info.disconnected.reason);
+  Serial.println("Trying to Reconnect");
+  WiFi.begin(ssid, password);
+}
+
 void setup()
 {
   WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); //disable brownout detector
@@ -262,6 +271,7 @@ void setup()
   display.drawBitmap(5, 12, facethecamera, 118, 40, WHITE); //Tell user to face the OV2640 camera with graphics
   display.display();
   DF.play(1); //Play face the camera audio file
+  WiFi.onEvent(WiFiStationDisconnected, SYSTEM_EVENT_STA_DISCONNECTED);
 }
 void loop()
 {
