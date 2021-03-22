@@ -1,4 +1,5 @@
 # Python virtual environments
+mypython/
 Face-Mask-Detection-master/env/
 .vscode/
 Face-Mask-Detection-master/mask_detector.model
