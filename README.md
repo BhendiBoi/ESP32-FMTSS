@@ -1,7 +1,7 @@
 # ESP32 *F*ace *M*ask detection, *T*emperature measurement, automatic *S*anitizer *S*ystem (ESP32 FMTSS)
 **(yes, i know, a very lengthy name)**
 
-**Please note that this project is archived**, due to internal conflicts within the team over this software. There was never a project director, and me and my teammates (see the "The Team" section) were not open to the idea of modifying each others code, this led to us fighting over the project and it was a painful process from start to end. nonetheless this was a fun project, which i learned a lot from. This Project is now made [Free software under](https://www.fsf.org/about/what-is-free-software) under [the MIT license](https://en.wikipedia.org/wiki/MIT_License), and anyone can re-use this code for any purpose (WARRANTY IS NOT PROVIDED).
+**Please note that this project is archived**, due to internal conflicts within the team over this software. There was never a project director, and me and my teammates (see the "The Team" section) were not open to the idea of modifying each others code, this led to us fighting over the project and it was a painful process from start to end. nonetheless this was a fun project, which i learned a lot from. This Project is now made [Free software](https://www.fsf.org/about/what-is-free-software) under [the MIT license](https://en.wikipedia.org/wiki/MIT_License), and anyone can re-use this code for any purpose (WARRANTY IS NOT PROVIDED).
 
 ### The Project
 
